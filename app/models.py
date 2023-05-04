@@ -1,8 +1,9 @@
 from app import db
 
-book_author = db.Table('book_author',
+book_author = db.Table('book_author', db.metadata,
     db.Column('book_id', db.Integer, db.ForeignKey('book.id'), primary_key = True),
-    db.Column('author_id', db.Integer, db.ForeignKey('author.id'), primary_key = True)
+    db.Column('author_id', db.Integer, db.ForeignKey('author.id'), primary_key = True),
+    extend_existing = True
     )
 
 class Book(db.Model):
@@ -12,9 +13,10 @@ class Book(db.Model):
     genre = db.Column(db.String(30), index = True)
     short_description = db.Column(db.String(200))
     authors = db.relationship('Author', secondary = 'book_author', backref = 'Books', lazy = 'dynamic')
+    __table_args__ = {'extend_existing': True}
 
     def __str__(self):
-        return f"{self.authors}, {self.title}, {self.year_of_publication}, {self.genre}, {self.short_description}"
+        return f"{self.title}, {self.year_of_publication}, {self.genre}, {self.short_description}"
 
 class Author(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -23,12 +25,13 @@ class Author(db.Model):
     birth_date = db.Column(db.String(20))
     death_date = db.Column(db.String(20), nullable = True)
     books = db.relationship('Book', secondary = 'book_author', backref = 'Authors', lazy = 'dynamic')
+    __table_args__ = {'extend_existing': True}
 
     def __str__(self):
         if self.death_date is None:
-            return f"{self.first_name}, {self.last_name}, {self.books}, birth date: {self.birth_date}"
+            return f"{self.first_name}, {self.last_name}, birth date: {self.birth_date}"
         else:
-            return f"{self.first_name}, {self.last_name}, {self.books}, birth date: {self.birth_date}, death date: {self.death_date}"
+            return f"{self.first_name}, {self.last_name}, birth date: {self.birth_date}, death date: {self.death_date}"
 
 class Bookcase(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -36,6 +39,7 @@ class Bookcase(db.Model):
     book = db.relationship('Book', backref = 'bookcases', lazy = 'select')
     status = db.Column(db.String(10), index = True)
     who_borrowed = db.Column(db.String(50), index = True, nullable = True)
+    __table_args__ = {'extend_existing': True}
 
     def __str__(self):
         if self.who_borrowed is None:
