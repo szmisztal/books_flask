@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+	<ul>
+		{% for book in books %}
+   			<li>{{ book.id }} - {{ book.title }}, {{ book.year_of_publication }}, {{ book.genre }}, {{ book.short_description }}</li>
+		{% endfor %}
+	</ul>
+	<form method="POST" action="/books">
+		<h1>Add book:</h1>
+		<p>Title:</p>
+		<label for="title"></label>
+		<input type="text" id="title" name="title"><br>
+		<br>
+		<p>Year of publication:</p>
+		<label for="author"></label>
+		<input type="number" id="year_of_publication" name="year_of_publication"><br>
+		<br>
+		<p>Genre:</p>
+		<label for"genre"></label>
+		<input type="text" id="genre" name="genre"><br>
+		<p>Short description:</p>
+		<label for="short_description"></label>
+		<textarea cols=80 rows=4 type="textbox" id="short_description" name="short_description" placeholder="Short description..."></textarea><br>
+		<br>
+		<input type="submit" value="Add">
+	</form>
+</body>
+</html>

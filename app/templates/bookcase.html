@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+	<ul>
+		{% for book in bookcase %}
+   			<li>{{ book.book.title }} - {{ book.status }} - {{ book.who_borrowed }}</li>
+		{% endfor %}
+	</ul>
+	<form method="POST" action="/bookcase">
+    		<h1>Add bookcase:</h1>
+    		<p>Title:</p>
+    		<select name="book_id">
+        	{% for book in books %}
+            		<option value="{{ book.id }}">{{ book.title }}</option>
+        	{% endfor %}
+    		</select>
+    		<br>
+    		<p>Status:</p>
+    		<label for="status"></label>
+    		<input type="text" id="status" name="status"><br>
+    		<br>
+    		<p>Who borrowed:</p>
+    		<label for"who_borrowed"></label>
+    		<input type="text" id="who_borrowed" name="who_borrowed"><br>
+    		<br>
+    		<input type="submit" value="Add">
+	</form>
+</body>
+</html>
